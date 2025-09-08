@@ -5,7 +5,7 @@ import { PLATFORM_DIMENSIONS } from '../constants';
 
 // The API_KEY is now expected to be set in the environment and will be used by the GoogleGenAI constructor.
 // Removing the immediate throw makes the app more resilient if the key is not available during initial load.
-const ai = new GoogleGenAI({ apiKey: "AIzaSyBxv9qWa6GHM5WX5nGJZkq7T1ggH1giNuc" });
+const ai = new GoogleGenAI({ apiKey: "AIzaSyDNkymyU3NSFcxV21XUbu2KiXqsjw-6pIU" });
 
 const fileToGenerativePart = async (file: File) => {
     const base64EncodedData = await new Promise<string>((resolve, reject) => {
