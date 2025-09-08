@@ -2,7 +2,7 @@ import type { UserInput, SocialPost, DesignDetails } from '../types';
 import { PLATFORM_DIMENSIONS } from '../constants';
 
 // Stability AI API configuration
-const STABILITY_API_KEY = "YOUR_STABILITY_API_KEY_HERE"; // Replace with your actual API key
+const STABILITY_API_KEY = "sk-P8RcGHrlPUmLGtQce6UMazltNHJwGbFRgevXPcdLJ5tZsaNN"; // Replace with your actual API key
 const STABILITY_API_URL = "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image";
 
 // Convert platform dimensions to Stability AI format
