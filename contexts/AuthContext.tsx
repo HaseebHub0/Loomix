@@ -23,25 +23,45 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
-      if (firebaseUser) {
-        // User is signed in, get their profile from Firestore
-        const userProfile = await authService.getUserProfile(firebaseUser.uid);
-        if (userProfile) {
-          setUser({
-            uid: firebaseUser.uid,
-            email: firebaseUser.email,
-            ...userProfile,
-          });
+      try {
+        if (firebaseUser) {
+          console.log('User authenticated, fetching profile for UID:', firebaseUser.uid);
+          // User is signed in, get their profile from Firestore
+          try {
+            const userProfile = await authService.getUserProfile(firebaseUser.uid);
+            if (userProfile) {
+              console.log('User profile loaded successfully:', userProfile);
+              setUser({
+                uid: firebaseUser.uid,
+                email: firebaseUser.email,
+                ...userProfile,
+              });
+            } else {
+              // This might happen if Firestore profile creation failed during signup
+              console.error("Could not find user profile for a logged in user.");
+              setUser(null);
+            }
+          } catch (profileError) {
+            console.error('Error fetching user profile:', profileError);
+            // If profile fetch fails, still set the user with basic info
+            setUser({
+              uid: firebaseUser.uid,
+              email: firebaseUser.email,
+              credits: 5, // Default credits
+              plan: 'free' // Default plan
+            });
+          }
         } else {
-            // This might happen if Firestore profile creation failed during signup
-            console.error("Could not find user profile for a logged in user.");
-            setUser(null);
+          // User is signed out
+          console.log('User signed out');
+          setUser(null);
         }
-      } else {
-        // User is signed out
+      } catch (error) {
+        console.error('Error in auth state change:', error);
         setUser(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     // Cleanup subscription on unmount
