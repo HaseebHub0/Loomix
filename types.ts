@@ -1,5 +1,5 @@
 export type Platform = 'instagram' | 'facebook' | 'linkedin' | 'x';
-
+export type AIProvider = 'gemini' | 'stability';
 export type LogoPosition = 'top-left' | 'top-right' | 'top-middle';
 
 export interface UserInput {
@@ -12,6 +12,7 @@ export interface UserInput {
   brandColors?: { primary: string; secondary:string; };
   headlineText?: string;
   font?: string;
+  aiProvider?: AIProvider; // Optional AI provider selection
 }
 
 export interface DesignDetails {

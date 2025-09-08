@@ -3,7 +3,7 @@ import { Sidebar } from '../components/Sidebar';
 import { Header } from '../components/Header';
 import { PreviewPanel } from '../components/PreviewPanel';
 import type { SocialPost, UserInput, Platform } from '../types';
-import { generateSocialPost } from '../services/geminiService';
+import { aiService } from '../services/aiService';
 import { useAuth } from '../hooks/useAuth';
 
 function GeneratorPage() {
@@ -20,7 +20,12 @@ function GeneratorPage() {
     setPreviewPlatform(input.platform); 
 
     try {
-      const result = await generateSocialPost(input);
+      // Set the AI provider based on user selection
+      if (input.aiProvider) {
+        aiService.setProvider(input.aiProvider);
+      }
+      
+      const result = await aiService.generateSocialPost(input);
       setPostData(result);
       decrementCredits(); // Decrement credit on successful generation
     } catch (err) {

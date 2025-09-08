@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import type { UserInput, LogoPosition, Platform } from '../types';
+import type { UserInput, LogoPosition, Platform, AIProvider } from '../types';
 import { STYLES, FONTS } from '../constants';
 import { PlatformSelector } from './PlatformSelector';
+import AIProviderSelector from './AIProviderSelector';
 import { useAuth } from '../hooks/useAuth';
 
 const ImageUploader: React.FC<{
@@ -78,7 +79,8 @@ export const InputForm: React.FC<{ onSubmit: (data: UserInput) => void; isLoadin
   const [formData, setFormData] = useState<UserInput>({ 
     productDescription: '', 
     style: STYLES[0].id,
-    platform: 'instagram' 
+    platform: 'instagram',
+    aiProvider: 'gemini' // Default to Gemini
   });
   
   const hasCredits = user ? user.credits > 0 : false;
@@ -132,9 +134,18 @@ export const InputForm: React.FC<{ onSubmit: (data: UserInput) => void; isLoadin
                 />
             </div>
         </div>
-        
+
         <div className="space-y-4">
-            <h2 className="text-base font-semibold text-indigo-400">Step 2: Platform & Style</h2>
+            <h2 className="text-base font-semibold text-indigo-400">Step 2: AI Provider</h2>
+            <AIProviderSelector
+                selectedProvider={formData.aiProvider || 'gemini'}
+                onProviderChange={(provider) => setFormValue('aiProvider', provider)}
+                disabled={isLoading}
+            />
+        </div>
+
+        <div className="space-y-4">
+            <h2 className="text-base font-semibold text-indigo-400">Step 3: Platform & Style</h2>
             <div>
                 <label className="block text-sm font-medium text-gray-400 mb-2">Platform*</label>
                 <PlatformSelector selectedPlatform={formData.platform} onSelectPlatform={(p) => setFormValue('platform', p)} />
@@ -149,7 +160,7 @@ export const InputForm: React.FC<{ onSubmit: (data: UserInput) => void; isLoadin
 
 
         <div className="space-y-4">
-             <h2 className="text-base font-semibold text-indigo-400">Step 3: Brand Assets (Optional)</h2>
+             <h2 className="text-base font-semibold text-indigo-400">Step 4: Brand Assets (Optional)</h2>
              <div>
                 <label className="block text-sm font-medium text-gray-400 mb-1">Product Image</label>
                 <ImageUploader label="Product" onFileChange={file => setFormValue('productImage', file || undefined)} />
@@ -186,7 +197,7 @@ export const InputForm: React.FC<{ onSubmit: (data: UserInput) => void; isLoadin
         </div>
 
         <div className="space-y-4">
-            <h2 className="text-base font-semibold text-indigo-400">Step 4: Fine-Tuning (Optional)</h2>
+            <h2 className="text-base font-semibold text-indigo-400">Step 5: Fine-Tuning (Optional)</h2>
              <div>
                 <label className="block text-sm font-medium text-gray-400 mb-1">Brand Colors</label>
                 <div className="flex gap-4">
