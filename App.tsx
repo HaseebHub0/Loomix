@@ -21,14 +21,14 @@ const App: React.FC = () => {
     // The AuthProvider handles the initial loading state, so a check here is not needed.
     // When this component renders, the auth state has already been determined.
 
-    // if (!isAuthenticated) {
-    //     if (hash === '#/signup') return <SignupPage />;
-    //     if (hash === '#/login') return <LoginPage />;
-    //     return <LandingPage />;
-    // }
+    if (!isAuthenticated) {
+        if (hash === '#/signup') return <SignupPage />;
+        if (hash === '#/login') return <LoginPage />;
+        return <LandingPage />;
+    }
 
-    // // Authenticated routes
-    // if (hash === '#/settings') return <SettingsPage />;
+    // Authenticated routes
+    if (hash === '#/settings') return <SettingsPage />;
     
     // Default to generator page if logged in
     return <GeneratorPage />;
