@@ -1,0 +1,5 @@
+{
+  "name": "Loomix",
+  "description": "An AI-powered tool that automatically generates complete, ready-to-use social media posts. Users provide a brand name, product name, and description to instantly create a post with a background, styled text, an AI-generated product image, captions, and hashtags.",
+  "requestFramePermissions": []
+}
